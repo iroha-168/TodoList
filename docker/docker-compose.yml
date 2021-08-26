@@ -1,0 +1,18 @@
+version: "3.1"
+services:
+  frontend:
+    container_name: todo_frontend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../.:/app
+    tty: true
+    networks:
+      - todo-net
+
+networks:
+  todo-net:
+    external: true
