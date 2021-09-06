@@ -23,7 +23,7 @@
 
     <div class="todo_list">
       <ul type="cirsle">
-        <li v-for="(val, index) in todos" :key="index">{{ val.content }} 
+        <li v-for="todo in todos" :key="todo.id">{{ todo.content }} 
           <span>✖️</span>
         </li>
       </ul>
@@ -41,19 +41,19 @@ export default {
   setup() {
     // TextFieldに入力された文字列を取得する
     const id = ref(1)
-    const todo = ref('')
+    const content = ref('')
     const todos = ref([])
 
     const addTodo = () => {
-      todos.value.push({id: id.value, content: todo.value})
+      todos.value.push({id: id.value, content: content.value})
       id.value++
-      todo.value = ''
+      content.value = ''
     }
 
     return {
       addTodo,
       todos,
-      todo
+      content
     }
   }
 }
