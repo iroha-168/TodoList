@@ -7,7 +7,7 @@
             <v-col md="7">
             <h2>TODOリスト</h2>
               <v-text-field
-                v-model="todo"
+                v-model="content"
                 label="Todo"
                 type=text
                 required>
@@ -24,7 +24,7 @@
     <div class="todo_list">
       <ul type="cirsle">
         <li v-for="todo in todos" :key="todo.id">{{ todo.content }} 
-          <span>✖️</span>
+          <span @click="deleteTodo(todo.id)">✖️</span>
         </li>
       </ul>
     </div>
@@ -50,10 +50,16 @@ export default {
       content.value = ''
     }
 
+    const deleteTodo = (id) => {
+      todos.value.splice(id.value, 1)
+    }
+
     return {
       addTodo,
       todos,
-      content
+      content,
+
+      deleteTodo
     }
   }
 }
