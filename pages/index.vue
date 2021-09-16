@@ -23,7 +23,7 @@
 
     <div class="todo_list">
       <ul type="cirsle">
-        <li v-for="todo in todos" :key="todo.id">{{ todo.content }} 
+        <li v-for="todo in todos" :key="todo.id">{{ "content: " + todo.content + " ,id: " + todo.id }} 
           <span @click="deleteTodo(todo.id)">✖️</span>
         </li>
       </ul>
@@ -40,7 +40,7 @@ import { ref } from '@nuxtjs/composition-api'
 export default {
   setup() {
     // TextFieldに入力された文字列を取得する
-    const id = ref(1)
+    const id = ref(0)
     const content = ref('')
     const todos = ref([])
 
@@ -50,8 +50,11 @@ export default {
       content.value = ''
     }
 
-    const deleteTodo = (id) => {
-      todos.value.splice(id.value, 1)
+    const deleteTodo = (targetId) => {
+      todos.value.forEach(function(obj, i){
+        if(obj.id === targetId) todos.value.splice(i, 1)
+      })
+
     }
 
     return {
