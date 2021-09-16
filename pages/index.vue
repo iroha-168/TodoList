@@ -7,7 +7,7 @@
             <v-col md="7">
             <h2>TODOリスト</h2>
               <v-text-field
-                v-model="todo"
+                v-model="content"
                 label="Todo"
                 type=text
                 required>
@@ -23,8 +23,8 @@
 
     <div class="todo_list">
       <ul type="cirsle">
-        <li v-for="todo in todos" :key="todo.id">{{ todo.content }} 
-          <span>✖️</span>
+        <li v-for="todo in todos" :key="todo.id">{{ "content: " + todo.content + " ,id: " + todo.id }} 
+          <span @click="deleteTodo(todo.id)">✖️</span>
         </li>
       </ul>
     </div>
@@ -40,7 +40,7 @@ import { ref } from '@nuxtjs/composition-api'
 export default {
   setup() {
     // TextFieldに入力された文字列を取得する
-    const id = ref(1)
+    const id = ref(0)
     const content = ref('')
     const todos = ref([])
 
@@ -50,10 +50,16 @@ export default {
       content.value = ''
     }
 
+    const deleteTodo = (targetId) => {
+      todos.value = todos.value.filter(todo => todo.id !== targetId)
+    }
+
     return {
       addTodo,
       todos,
-      content
+      content,
+
+      deleteTodo
     }
   }
 }
