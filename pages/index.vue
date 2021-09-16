@@ -51,10 +51,7 @@ export default {
     }
 
     const deleteTodo = (targetId) => {
-      todos.value.forEach(function(obj, i){
-        if(obj.id === targetId) todos.value.splice(i, 1)
-      })
-
+      todos.value = todos.value.filter(todo => todo.id !== targetId)
     }
 
     return {
