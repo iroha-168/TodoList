@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="input_todo">
-      <v-form onsubmit="return false;">
+      <v-form @submit.prevent>
         <v-container>
           <v-row>
             <v-col md="7">
