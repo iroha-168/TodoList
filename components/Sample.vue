@@ -1,29 +1,6 @@
 <template>
     <div>
-        <div class="input_todo">
-            <v-form @submit.prevent>
-                <v-container>
-                <v-row>
-                    <v-col md="7">
-                    <h2>TODOリスト</h2>
-                    <v-text-field
-                        v-model="content"
-                        label="Todo"
-                        type=text
-                        required
-                        @keydown.enter.exact.prevent
-                        @keyup.enter.exact="editTodo"
-                    >
-                    </v-text-field>
-                    <v-row justify="end">
-                        <v-btn color="primary" @click="addTodo">追加</v-btn>
-                    </v-row>
-                    </v-col>
-                </v-row>  
-                </v-container>
-            </v-form>
-        </div>
-
+        <Todo />
         <div class="todo_list">
             <ul type="cirsle">
                 <v-card 
@@ -48,9 +25,13 @@
 
 <script>
 import { ref } from '@nuxtjs/composition-api'
+import Todo from '~/components/Todo'
 
 export default {
     name: 'Sample',
+    components: {
+        Todo
+    },
     setup() {
         // TextFieldに入力された文字列を取得する
         const id = ref(0)
@@ -81,13 +62,13 @@ export default {
 
         // エンターキー押下でtodosを編集する
         const editTodo = () => {
-        todos.value.map((todo) => {
-            if(todo.id === targetEditId.value) {
-            todo.content = content.value
-            content.value = ""
-            }
-            return todos
-        })
+            todos.value.map((todo) => {
+                if(todo.id === targetEditId.value) {
+                    todo.content = content.value
+                    content.value = ""
+                }
+                return todos
+            })
         }
 
         return {
