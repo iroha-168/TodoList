@@ -1,21 +1,22 @@
 <template>
     <div>
-        <Todo />
+        <!-- イベントの中のaddイベントをとる -->
+        <Form :id='id' :pcontent='content' @add='showTodo'/> 
         <div class="todo_list">
-            <ul type="cirsle">
-                <v-card 
-                v-for="todo in todos" :key="todo.id"
-                max-width="400">
-                {{ todo.content }} 
+            <ul>
+                <li v-for="todo in todos" :key="todo.id">
+                    <v-card max-width="400">
+                    {{ todo.content }} 
 
-                <v-btn icon color="blue" @click='deleteTodo(todo.id)'>
-                    <v-icon>mdi-delete</v-icon>
-                </v-btn>
+                        <v-btn icon color="blue" @click='deleteTodo(todo.id)'>
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
 
-                <v-btn icon color="blue" @click='returnToForm(todo.id)'>
-                    <v-icon>mdi-pencil-outline</v-icon>
-                </v-btn>
-                </v-card>
+                        <v-btn icon color="blue" @click='returnToForm(todo.id)'>
+                            <v-icon>mdi-pencil-outline</v-icon>
+                        </v-btn>
+                    </v-card>
+                </li>
             </ul>
         </div>
     </div>
@@ -25,12 +26,12 @@
 
 <script>
 import { ref } from '@nuxtjs/composition-api'
-import Todo from '~/components/Todo'
+import Form from '~/components/Form'
 
 export default {
     name: 'Sample',
     components: {
-        Todo
+        Form
     },
     setup() {
         // TextFieldに入力された文字列を取得する
@@ -39,45 +40,33 @@ export default {
         const todos = ref([])
         const targetEditId = ref(null)
 
-        const addTodo = () => {
-        todos.value.push({id: id.value, content: content.value})
-        id.value++
-        content.value = ''
-        }
-
-        const deleteTodo = (targetId) => {
-        todos.value = todos.value.filter(todo => todo.id !== targetId)
+        const showTodo = (todo) => {
+            todos.value.push(todo)
+            content.value = ''
         }
 
         // 選択されたtodoを入力フォームに表示させる
         const returnToForm = (targetId) => {
-        targetEditId.value = targetId
+            targetEditId.value = targetId
 
-        todos.value.forEach((todo) => {
-            if(todo.id === targetId) {
-            content.value = todo.content
-            }
-        })
-        }
-
-        // エンターキー押下でtodosを編集する
-        const editTodo = () => {
-            todos.value.map((todo) => {
-                if(todo.id === targetEditId.value) {
-                    todo.content = content.value
-                    content.value = ""
+            todos.value.forEach((todo) => {
+                if(todo.id === targetId) {
+                    content.value = todo.content
                 }
-                return todos
             })
         }
 
+        const deleteTodo = (targetId) => {
+            todos.value = todos.value.filter(todo => todo.id !== targetId)
+        }
+
         return {
-        addTodo,
-        todos,
-        content,
-        deleteTodo,
-        returnToForm,
-        editTodo
+            todos,
+            content,
+            returnToForm,
+            deleteTodo,
+            id,
+            showTodo
         }
     }
 }

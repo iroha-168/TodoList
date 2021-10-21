@@ -29,16 +29,30 @@ import { defineComponent } from '@vue/composition-api'
 import { ref } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-    name: 'Todo',
-    setup() {
+    name: 'Form',
+    props: {
+        id: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        pcontent: {
+            type: String,
+            required: false,
+            default: ''
+        }
+    },
+    setup(props, context) {
         const content = ref('')
         const todos = ref([])
         const id = ref(0)
         const targetEditId = ref(null)
 
+        content.value = props.pcontent
+
         const addTodo = () => {
-            todos.value.push({id: id.value, content: content.value})
             id.value++
+            context.emit('add', {id: id.value, content: content.value})
             content.value = ''
         }
 
